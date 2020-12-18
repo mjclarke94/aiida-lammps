@@ -52,9 +52,12 @@ class EmpiricalPotential(Data):
         external_contents = pot_class.get_external_content() or {}
         pot_lines = pot_class.get_input_potential_lines()
 
+        charge_dict = pot_class.charge_dict
+
         self.set_attribute("potential_type", potential_type)
         self.set_attribute("atom_style", atom_style)
         self.set_attribute("default_units", default_units)
+        self.set_attribute("charge_dict", charge_dict)
         self.set_attribute(
             "allowed_element_names",
             sorted(allowed_element_names)
@@ -132,3 +135,7 @@ class EmpiricalPotential(Data):
         for fname in self.get_attribute("external_files"):
             fmap[fname] = self.get_object_content(fname, "r")
         return fmap
+
+    @property
+    def charge_dict(self):
+        return self.get_attribute('charge_dict')

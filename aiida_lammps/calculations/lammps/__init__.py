@@ -247,9 +247,10 @@ class BaseLammpsCalculation(CalcJob):
             )
 
         # Setup structure
+
         structure_txt, struct_transform = generate_lammps_structure(
-            self.inputs.structure, self.inputs.potential.atom_style
-        )
+                self.inputs.structure, self.inputs.potential.atom_style, self.inputs.potential.charge_dict
+            )
 
         with open(
             tempfolder.get_abs_path(self.options.cell_transform_filename), "w+b"
