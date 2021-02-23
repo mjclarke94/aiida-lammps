@@ -58,6 +58,7 @@ class EmpiricalPotential(Data):
         self.set_attribute("atom_style", atom_style)
         self.set_attribute("default_units", default_units)
         self.set_attribute("charge_dict", charge_dict)
+        self.set_attribute("kind_map", charge_dict)
         self.set_attribute(
             "allowed_element_names",
             sorted(allowed_element_names)
@@ -138,4 +139,16 @@ class EmpiricalPotential(Data):
 
     @property
     def charge_dict(self):
-        return self.get_attribute('charge_dict')
+        return self.get_attribute("charge_dict", default=None)
+
+    @charge_dict.setter
+    def charge_dict(self, value):
+        return self.set_attribute("charge_dict", value)
+
+    @property
+    def kind_map(self):
+        return self.get_attribute("kind_map", default=None)
+
+    @kind_map.setter
+    def kind_map(self, value):
+        return self.set_attribute("kind_map", value)

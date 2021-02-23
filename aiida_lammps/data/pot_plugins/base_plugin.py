@@ -62,7 +62,3 @@ class PotentialAbstract(abc.ABC):
         (used in ``pair_coeff`` to map atom types to elements).
         """
         pass
-
-    @abc.abstractproperty
-    def charge_dict(self):
-        pass
