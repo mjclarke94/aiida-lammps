@@ -67,6 +67,38 @@ class MdMultiCalculation(BaseLammpsCalculation):
         lammps_input_file += "\n# Potential Setup\n"
         lammps_input_file += potential_data.get_input_lines(kind_symbols)
 
+        # Create groups
+
+        groups = pdict.get("groups", {})
+        if len(groups) > 0:
+            lammps_input_file += "\n# Groups setup\n"
+
+        for group in groups:  # TODO: Complete all group styles
+            id = group.get("id")
+            style = group.get("style")
+
+            for bool_style in ["clear", "delete", "empty"]:
+                if style.get(bool_style, False):
+                    lammps_input_file += "group {0} {1}\n".format(id, bool_style)
+                    break
+
+            for attribute_style in ["id", "type", "molecule"]:
+                if values := style.get(attribute_style, False):
+                    str_vals = " ".join([str(i) for i in values])
+                    lammps_input_file += "group {0} {1} {2}\n".format(
+                        id, attribute_style, str_vals
+                    )
+                    break
+
+            for attribute_style in ["include"]:
+                if style.get(attribute_style, False):
+                    lammps_input_file += "group {0} include molecule\n".format(id)
+                    break
+
+            for attribute_style in ["subtract", "union", "intersect"]:
+                if style.get(attribute_style, False):
+                    raise NotImplementedError()
+
         # Modify pairwise neighbour list creation
         lammps_input_file += "\n# General Setup\n"
         if "neighbor" in pdict:
@@ -135,9 +167,10 @@ class MdMultiCalculation(BaseLammpsCalculation):
             for compute in stage_dict.get("computes", []):
                 c_id = compute["id"]
                 c_style = compute["style"]
+                c_group = compute.get("group", "all")
                 c_args = " ".join([str(a) for a in compute.get("args", [])])
-                lammps_input_file += "compute         {0} all {1} {2}\n".format(
-                    c_id, c_style, c_args
+                lammps_input_file += "compute         {0} {1} {2} {3}\n".format(
+                    c_id, c_group, c_style, c_args
                 )
                 current_computes.append(c_id)
 

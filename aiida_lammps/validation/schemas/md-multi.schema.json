@@ -248,6 +248,10 @@
                 "type": "string",
                 "pattern": "[\\_a-zA-Z0-9]+"
               },
+              "group": {
+                "type": "string",
+                "pattern": "[\\_\\-a-zA-Z0-9]+"
+              },
               "style": {
                 "type": "string",
                 "enum": [
@@ -739,6 +743,112 @@
             }
           }
         ]
+      }
+    },
+    "groups": {
+      "description": "Any custom groups to apply fixes/computes to. TODO: implement dynamic",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "style"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "[\\_a-zA-Z0-9]+"
+          },
+          "style": {
+            "type": "object",
+            "properties": {
+              "delete": {
+                "description": "Removes the named group and un-assigns all atoms that were assigned to that group",
+                "type": "boolean"
+              },
+              "clear": {
+                "description": "Un-assigns all atoms that were assigned to a group",
+                "type": "boolean"
+              },
+              "empty": {
+                "description": "Creates an empty group",
+                "type": "boolean"
+              },
+              "region": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "description": "ID of defined region",
+                    "type": "string",
+                    "pattern": "[\\_a-zA-Z0-9]+"
+                  }
+                }
+              },
+              "type": {
+                "type": "array",
+                "items": {
+                  "type": [
+                    "integer",
+                    "string"
+                  ]
+                }
+              },
+              "id": {
+                "type": "array",
+                "items": {
+                  "type": [
+                    "integer",
+                    "string"
+                  ]
+                }
+              },
+              "molecule": {
+                "type": "array",
+                "items": {
+                  "type": [
+                    "integer",
+                    "string"
+                  ]
+                }
+              },
+              "variable": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "description": "ID of defined variable",
+                    "type": "string",
+                    "pattern": "[\\_a-zA-Z0-9]+"
+                  }
+                }
+              },
+              "include": {
+                "description": "add atoms to group with same molecule ID as atoms already in group",
+                "type": "boolean"
+              },
+              "subtract": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "[\\_a-zA-Z0-9]+"
+                }
+              },
+              "union": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "[\\_a-zA-Z0-9]+"
+                }
+              },
+              "intersect": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "[\\_a-zA-Z0-9]+"
+                }
+              }
+            }
+          }
+        }
       }
     },
     "stages": {
