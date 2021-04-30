@@ -380,7 +380,7 @@ def sys_ave_commands(
                         dump_rate, average_rate, repeat_rate
                     )
                 )
-            nrep = repeat_rate
+            nrep = int(repeat_rate)
         else:
             nrep = int(dump_rate / average_rate)
 
