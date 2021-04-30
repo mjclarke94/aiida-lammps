@@ -1,5 +1,3 @@
-import numpy as np
-
 from aiida_lammps.data.pot_plugins.base_plugin import PotentialAbstract
 
 
